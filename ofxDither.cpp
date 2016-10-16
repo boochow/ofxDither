@@ -68,8 +68,8 @@ void ofxDither :: dither_ordered ( ofImage& imageIn, ofImage& imageOut, int mapS
 {
 	prepImagesForGreyscale( imageIn, imageOut );
 	
-	int w = imageIn.width;
-	int h = imageIn.height;
+	int w = imageIn.getWidth();
+	int h = imageIn.getHeight();
 	int s = mapSize;
 	
 	for( int y=0; y<h; y++ )
@@ -120,8 +120,8 @@ void ofxDither :: dither_floyd_steinberg ( ofImage& imageIn, ofImage& imageOut )
 {
 	prepImagesForGreyscale( imageIn, imageOut );
 	
-	int w = imageIn.width;
-	int h = imageIn.height;
+	int w = imageIn.getWidth();
+	int h = imageIn.getHeight();
 	int t = w * h;
 
 	float* qErrors = new float[ t ];
@@ -219,8 +219,8 @@ void ofxDither :: dither_atkinson ( ofImage& imageIn, ofImage& imageOut )
 {
 	prepImagesForGreyscale( imageIn, imageOut );
 	
-	int w = imageIn.width;
-	int h = imageIn.height;
+	int w = imageIn.getWidth();
+	int h = imageIn.getHeight();
 	int t = w * h;
 	
 	float* qErrors = new float[ t ];
@@ -342,12 +342,12 @@ void ofxDither :: dither_atkinson ( ofImage& imageIn, ofImage& imageOut )
 
 void ofxDither :: prepImagesForGreyscale ( ofImage& imageIn, ofImage& imageOut )
 {
-	int w = imageIn.width;
-	int h = imageIn.height;
+	int w = imageIn.getWidth();
+	int h = imageIn.getHeight();
 	
 	//--- image in.
 	
-	if( imageIn.bpp == 8 )	// already greyscale.
+	if( imageIn.getImageType() == OF_IMAGE_GRAYSCALE)	// already greyscale.
 	{
 		imageInPixels = imageIn.getPixels();
 	}
@@ -362,9 +362,9 @@ void ofxDither :: prepImagesForGreyscale ( ofImage& imageIn, ofImage& imageOut )
 	
 	//--- image out.
 	
-	int b1 = imageOut.width  != w;
-	int b2 = imageOut.height != h;
-	int b3 = imageOut.bpp    != 8;
+	int b1 = imageOut.getWidth() != w;
+	int b2 = imageOut.getHeight() != h;
+	int b3 = imageOut.getImageType() != OF_IMAGE_GRAYSCALE;
 	
 	if( b1 || b2 || b3 )
 	{
@@ -377,8 +377,8 @@ void ofxDither :: prepImagesForGreyscale ( ofImage& imageIn, ofImage& imageOut )
 
 void ofxDither :: finishGreyscale ( ofImage& imageIn, ofImage& imageOut )
 {
-	int w = imageIn.width;
-	int h = imageIn.height;
+	int w = imageIn.getWidth();
+	int h = imageIn.getHeight();
 	
 	imageOut.setFromPixels( imageOutPixels, w, h, OF_IMAGE_GRAYSCALE );
 	
